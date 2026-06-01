@@ -1,0 +1,40 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<section class="page-hero contact-hero reveal">
+  <p class="eyebrow">Contact</p>
+  <h1>Let us build useful web software together.</h1>
+</section>
+
+<section class="contact-layout reveal">
+  <div>
+    <h2>Reach Me</h2>
+    <p>{{ profile.location }}</p>
+    <p><a href="mailto:{{ profile.email }}">{{ profile.email }}</a></p>
+    <p><a href="tel:{{ profile.phone }}">{{ profile.phone }}</a></p>
+    <div class="social-strip">
+      {% for label, icon, url in social_links %}
+        {% comment %} <a class="social-pill {{ icon }}" href="{{ url }}" target="_blank" rel="noopener">
+          {% include "portfolio/partials/social_icons.html" with icon=icon %}
+          <span>{{ label }}</span>
+        </a> {% endcomment %}
+      {% endfor %}
+    </div>
+  </div>
+  <form class="contact-form" method="post" action="{% url 'contact' %}">
+    {% csrf_token %}
+    {% if messages %}
+      <div class="form-messages" role="status">
+        {% for message in messages %}
+          <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <label>Name{{ form.name }}{{ form.name.errors }}</label>
+    <label>Email{{ form.email }}{{ form.email.errors }}</label>
+    <label>Subject{{ form.subject }}{{ form.subject.errors }}</label>
+    <label>Message{{ form.message }}{{ form.message.errors }}</label>
+    <button class="btn primary" type="submit">Send Message</button>
+  </form>
+</section>
+{% endblock %}

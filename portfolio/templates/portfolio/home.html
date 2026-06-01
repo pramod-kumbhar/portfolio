@@ -1,0 +1,55 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<section class="hero page-home reveal">
+  <div class="hero-copy reveal">
+    <p class="eyebrow">Portfolio</p>
+    <h1>{{ profile.name }}</h1>
+    <p class="lead">{{ profile.title }}</p>
+    <p>{{ profile.summary }}</p>
+   <div class="social-strip" aria-label="Profile social links">
+      {% for label, icon, url in social_links %}
+        {% comment %} <a class="social-pill {{ icon }}" href="{{ url }}" target="_blank" rel="noopener">
+          {% include "portfolio/partials/social_icons.html" with icon=icon %}
+          <span>{{ label }}</span>
+        </a> {% endcomment %}
+      {% endfor %}
+    </div> 
+    <div class="hero-actions">
+      <a class="btn primary" href="{% url 'projects' %}">View Projects</a>
+      <a class="btn ghost" href="{{ profile.resume_url }}" download>Download Resume</a>
+    </div>
+  </div>
+  <div class="hero-side reveal">
+    <figure class="profile-photo-card">
+      <img src="{{ profile.photo_url }}" alt="{{ profile.name }} profile photo">
+      <figcaption>{{ profile.location }}</figcaption>
+    </figure>
+    {% comment %} <aside class="home-link-panel" aria-label="Portfolio quick links">
+      <a href="{% url 'about' %}">About Me</a>
+      <a href="{% url 'skills' %}">Skills</a>
+      <a href="{% url 'education' %}">Education</a>
+      <a href="{% url 'experience' %}">Experience</a>
+      <a href="{% url 'projects' %}">Projects</a>
+      <a href="{% url 'certifications' %}">Certifications</a>
+      <a href="{% url 'contact' %}">Contact</a>
+    </aside> {% endcomment %}
+  </div>
+</section>
+
+<section class="snapshot-band reveal">
+  <article class="float-card">
+    <strong>Web site Building</strong>
+    <span>Full-stack development with REST APIs and SQL.</span>
+  </article>
+  <article class="float-card">
+    <strong>AWS</strong>
+    <span>Hands-on EC2, S3, VPC, IAM, and CloudWatch labs.</span>
+  </article>
+  <article class="float-card">
+    <strong>AI & Data Science</strong>
+    <span>B.Tech foundation with practical web engineering skills.</span>
+  </article>
+</section>
+
+{% endblock %}

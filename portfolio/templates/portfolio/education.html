@@ -1,0 +1,19 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<section class="page-hero education-hero reveal">
+  <p class="eyebrow">Education</p>
+  <h1>Academic foundation in Artificial Intelligence and Data Science.</h1>
+</section>
+
+<section class="timeline">
+  {% for item in education %}
+    <article class="timeline-item reveal">
+      <span>{{ item.year }}</span>
+      <h2>{{ item.degree }}</h2>
+      <p>{{ item.place }}</p>
+      <strong>{{ item.result }}</strong>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

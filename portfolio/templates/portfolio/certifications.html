@@ -1,0 +1,17 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<section class="page-hero certifications-hero reveal">
+  <p class="eyebrow">Certifications</p>
+  <h1>Learning paths that support cloud and full-stack delivery.</h1>
+</section>
+
+<section class="certificate-wall">
+  {% for certificate in certifications %}
+    <article class="reveal">
+      <span>Certificate</span>
+      <h2>{{ certificate }}</h2>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

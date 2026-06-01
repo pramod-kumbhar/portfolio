@@ -1,0 +1,62 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }} | {{ profile.name }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+</head>
+<body>
+  <div class="motion-bg" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <header class="site-header">
+    <a class="brand" href="{% url 'home' %}">
+      <span class="brand-mark">PK</span>
+      <span>{{ profile.name }}</span>
+    </a>
+    <nav class="top-nav" aria-label="Primary navigation">
+      <a href="{% url 'home' %}">Home</a>
+      <a href="{% url 'about' %}">About</a>
+      <a href="{% url 'skills' %}">Skills</a>
+      <a href="{% url 'projects' %}">Projects</a>
+      <a href="{% url 'contact' %}">Contact</a>
+    </nav>
+    <nav class="social-nav" aria-label="Social links">
+      {% for label, icon, url in social_links %}
+        {% comment %} <a class="social-icon {{ icon }}" href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ label }}">
+          {% include "portfolio/partials/social_icons.html" with icon=icon %}
+        </a> {% endcomment %}
+      {% endfor %}
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Toggle dark and white mode">
+      <span class="sun">Light</span>
+      <span class="moon">Dark</span>
+    </button>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    {% comment %} <span>{{ profile.location }}</span>
+    <span>{{ profile.email }}</span>
+    <span>{{ profile.phone }}</span> {% endcomment %}
+    <nav class="footer-socials" aria-label="Footer social links">
+      {% for label, icon, url in social_links %}
+        <a class="social-icon {{ icon }}" href="{{ url }}" target="_blank" rel="noopener" aria-label="{{ label }}">
+          {% include "portfolio/partials/social_icons.html" with icon=icon %}
+        </a>
+      {% endfor %}
+    </nav>
+  </footer>
+  <script src="{% static 'portfolio/js/theme.js' %}"></script>
+</body>
+</html>

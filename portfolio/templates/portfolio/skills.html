@@ -1,0 +1,24 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<section class="page-hero skills-hero reveal">
+  <p class="eyebrow">Skills</p>
+  <h1>Technical toolkit for web, cloud, and data projects.</h1>
+</section>
+
+<section class="skills-grid">
+  {% for group, items in skills %}
+    <article class="skill-card reveal">
+      <h2>{{ group }}</h2>
+      <div class="skill-icon-grid">
+        {% for item in items %}
+          <span class="skill-chip">
+            <b>{{ item.icon }}</b>
+            <em>{{ item.name }}</em>
+          </span>
+        {% endfor %}
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<section class="page-hero experience-hero reveal">
+  <p class="eyebrow">Experience</p>
+  <h1>Internship experience across Django, React, MySQL, and AWS.</h1>
+</section>
+
+<section class="experience-list">
+  {% for job in experience %}
+    <article class="experience-card reveal">
+      <div>
+        <span>{{ job.period }}</span>
+        <h2>{{ job.role }}</h2>
+        <p>{{ job.company }}</p>
+      </div>
+      <ul>
+        {% for point in job.points %}
+          <li>{{ point }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}
