@@ -4,9 +4,19 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-portfolio-dev-key"
-DEBUG = True
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-portfolio-dev-key")
+DEBUG = os.environ.get(
+    "DEBUG",
+    "False" if os.environ.get("VERCEL") else "True",
+).lower() == "true"
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    ".vercel.app",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.vercel.app",
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
