@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import BadHeaderError, EmailMessage
 from django.shortcuts import redirect, render
+
+import resend
 
 from .forms import ContactForm
 
@@ -181,14 +182,15 @@ def send_contact_email(form):
         f"Message:\n{message}\n"
     )
 
-    email = EmailMessage(
-        subject=f"Portfolio Contact: {subject}",
-        body=body,
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        to=[settings.CONTACT_RECEIVER_EMAIL],
-        reply_to=[sender_email],
-    )
-    email.send(fail_silently=False)
+    resend.api_key = settings.RESEND_API_KEY
+    
+    resend.Emails.send({
+        "from": settings.DEFAULT_FROM_EMAIL,
+        "to": settings.CONTACT_RECEIVER_EMAIL,
+        "subject": f"Portfolio Contact: {subject}",
+        "text": body,
+        "reply_to": sender_email,
+    })
 
 
 def home(request):
@@ -227,12 +229,10 @@ def contact(request):
         if form.is_valid():
             try:
                 send_contact_email(form)
-            except BadHeaderError:
-                messages.error(request, "Invalid message header. Please try again.")
-            except Exception:
+            except Exception as e:
                 messages.error(
                     request,
-                    "Message could not be sent yet. Please check the email setup and try again.",
+                    "Message could not be sent. Please check the email setup and try again.",
                 )
             else:
                 messages.success(

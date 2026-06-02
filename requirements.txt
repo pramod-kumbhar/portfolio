@@ -1,5 +1,4 @@
 Django==5.1.4
 asgiref==3.8.1
-django-anymail[resend]==13.1
 sqlparse==0.5.3
 tzdata==2025.2
