@@ -77,6 +77,8 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
+
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_BACKEND = os.environ.get(
@@ -90,7 +92,7 @@ EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() == "true"
 DEFAULT_FROM_EMAIL = os.environ.get(
     "DEFAULT_FROM_EMAIL",
-    EMAIL_HOST_USER or "portfolio-contact@localhost",
+    "onboarding@resend.dev",
 )
 CONTACT_RECEIVER_EMAIL = os.environ.get(
     "CONTACT_RECEIVER_EMAIL",

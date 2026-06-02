@@ -1,27 +1,35 @@
 # Portfolio Contact Form Email Setup
 
-The contact form is ready to send email through SMTP. It reads credentials from environment variables so passwords are not saved in the project.
+The contact form sends email through Resend, a modern email service API. It reads the API key from environment variables so credentials are not saved in the project.
 
-## Gmail Setup
+## Resend Setup
 
-1. Turn on 2-Step Verification for the Gmail account.
-2. Create a Gmail App Password.
-3. Start Django with these environment variables:
+1. Create a free account at [https://resend.com](https://resend.com)
+2. Verify your domain or use the provided Resend domain (onboarding@resend.dev)
+3. Get your API key from the Resend dashboard
+4. Start Django with the environment variable:
 
 ```powershell
-$env:EMAIL_HOST_USER="kumbharpramod834@gmail.com"
-$env:EMAIL_HOST_PASSWORD="your-16-character-app-password"
-$env:CONTACT_RECEIVER_EMAIL="kumbharpramod834@gmail.com"
+$env:RESEND_API_KEY="re_your_api_key_here"
+$env:CONTACT_RECEIVER_EMAIL="your-email@example.com"
 python manage.py runserver 127.0.0.1:8000
 ```
 
-Optional values:
+### Optional Configuration
 
 ```powershell
-$env:EMAIL_HOST="smtp.gmail.com"
-$env:EMAIL_PORT="587"
-$env:EMAIL_USE_TLS="True"
-$env:DEFAULT_FROM_EMAIL="kumbharpramod834@gmail.com"
+$env:DEFAULT_FROM_EMAIL="noreply@yourdomain.com"
 ```
 
-Without `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD`, Django uses the console email backend for local testing. The form still works, but messages print in the terminal instead of being delivered.
+If you own a domain, configure it in Resend to send from your custom domain instead of onboarding@resend.dev.
+
+## Testing Locally
+
+To test locally without Resend API key, set `RESEND_API_KEY` to empty or use a mock. The form validation will work, but email sending will fail gracefully with an error message.
+
+## Environment Variables Reference
+
+- `RESEND_API_KEY` - Your Resend API key (required for sending emails)
+- `CONTACT_RECEIVER_EMAIL` - Email address to receive contact form submissions (defaults to portfolio owner email)
+- `DEFAULT_FROM_EMAIL` - Email address to send from (defaults to onboarding@resend.dev)
+
