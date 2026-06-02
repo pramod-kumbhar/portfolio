@@ -174,6 +174,11 @@ def context(page_title):
 
 
 def send_contact_email(form):
+    if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
+        raise RuntimeError(
+            "Email is not configured. Set EMAIL_HOST_USER and EMAIL_HOST_PASSWORD."
+        )
+
     name = form.cleaned_data["name"]
     sender_email = form.cleaned_data["email"]
     subject = form.cleaned_data.get("subject") or "New portfolio contact message"
