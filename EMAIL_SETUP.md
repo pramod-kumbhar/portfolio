@@ -1,27 +1,29 @@
 # Portfolio Contact Form Email Setup
 
-The contact form is ready to send email through SMTP. It reads credentials from environment variables so passwords are not saved in the project.
+The contact form sends email through Resend using Django Anymail. Secrets are read from environment variables and are not stored in the codebase.
 
-## Gmail Setup
-
-1. Turn on 2-Step Verification for the Gmail account.
-2. Create a Gmail App Password.
-3. Start Django with these environment variables:
+## Required Environment Variables
 
 ```powershell
-$env:EMAIL_HOST_USER="kumbharpramod834@gmail.com"
-$env:EMAIL_HOST_PASSWORD="your-16-character-app-password"
+$env:RESEND_API_KEY="your-resend-api-key"
 $env:CONTACT_RECEIVER_EMAIL="kumbharpramod834@gmail.com"
 python manage.py runserver 127.0.0.1:8000
 ```
 
-Optional values:
+Optional:
 
 ```powershell
-$env:EMAIL_HOST="smtp.gmail.com"
-$env:EMAIL_PORT="587"
-$env:EMAIL_USE_TLS="True"
-$env:DEFAULT_FROM_EMAIL="kumbharpramod834@gmail.com"
+$env:DEFAULT_FROM_EMAIL="Pramod Portfolio <onboarding@resend.dev>"
 ```
 
-Without `EMAIL_HOST_USER` and `EMAIL_HOST_PASSWORD`, Django uses the console email backend for local testing. The form still works, but messages print in the terminal instead of being delivered.
+For production, set the same variables in Vercel Project Settings.
+
+## Important
+
+For a professional production setup, verify your own domain in Resend and change `DEFAULT_FROM_EMAIL` to an address on that domain, for example:
+
+```powershell
+$env:DEFAULT_FROM_EMAIL="Pramod Portfolio <contact@yourdomain.com>"
+```
+
+If `RESEND_API_KEY` is not set, Django uses the console email backend locally. The form still submits, but the email prints in the terminal instead of being sent.

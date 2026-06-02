@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "anymail",
     "portfolio",
 ]
 
@@ -77,22 +78,21 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 EMAIL_BACKEND = os.environ.get(
     "EMAIL_BACKEND",
-    "django.core.mail.backends.smtp.EmailBackend"
-    if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD
+    "anymail.backends.resend.EmailBackend"
+    if RESEND_API_KEY
     else "django.core.mail.backends.console.EmailBackend",
 )
-EMAIL_HOST = os.environ.get("EMAIL_HOST", "smtp.gmail.com")
-EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
-EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "True").lower() == "true"
+ANYMAIL = {
+    "RESEND_API_KEY": RESEND_API_KEY,
+}
 DEFAULT_FROM_EMAIL = os.environ.get(
     "DEFAULT_FROM_EMAIL",
-    EMAIL_HOST_USER or "portfolio-contact@localhost",
+    "Pramod Portfolio <onboarding@resend.dev>",
 )
 CONTACT_RECEIVER_EMAIL = os.environ.get(
     "CONTACT_RECEIVER_EMAIL",
-    EMAIL_HOST_USER or "kumbharpramod834@gmail.com",
+    "kumbharpramod834@gmail.com",
 )
