@@ -1,10 +1,14 @@
+import logging
+
 from django.conf import settings
 from django.contrib import messages
+from django.core.mail import BadHeaderError, EmailMessage
 from django.shortcuts import redirect, render
 
-import resend
-
 from .forms import ContactForm
+
+
+logger = logging.getLogger(__name__)
 
 
 PROFILE = {
@@ -17,13 +21,13 @@ PROFILE = {
     "whatsapp": "https://wa.me/919067903004",
     "linkedin": "https://www.linkedin.com/in/pramod-kumbhar-658410256/",
     "github": "https://github.com/pramod-kumbhar",
-    "photo_url": "/static/portfolio/img/profile-placeholder.jpeg",
+    "photo_url": "/static/portfolio/img/profile-placeholder.png",
     "resume_url": "/media/Pramod_Kumbhar.pdf",
     "summary": (
         "AI and Data Science graduate with hands-on experience in Python, SQL, "
         "and Django for full-stack development. Skilled in building responsive "
         "web apps and REST APIs, with exposure to React.js, AI/ML, Data Analytics, "
-        "AWS Cloud, and hardware."
+        "AWS Cloud, and hardware.My goal is to build innovative software solutions while growing as a Full Stack Python Developer and gaining real-world experience in AI/ML domain"
     ),
 }
 
@@ -182,15 +186,14 @@ def send_contact_email(form):
         f"Message:\n{message}\n"
     )
 
-    resend.api_key = settings.RESEND_API_KEY
-    
-    resend.Emails.send({
-        "from": settings.DEFAULT_FROM_EMAIL,
-        "to": settings.CONTACT_RECEIVER_EMAIL,
-        "subject": f"Portfolio Contact: {subject}",
-        "text": body,
-        "reply_to": sender_email,
-    })
+    email = EmailMessage(
+        subject=f"Portfolio Contact: {subject}",
+        body=body,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[settings.CONTACT_RECEIVER_EMAIL],
+        reply_to=[sender_email],
+    )
+    return email.send(fail_silently=False)
 
 
 def home(request):
@@ -229,10 +232,18 @@ def contact(request):
         if form.is_valid():
             try:
                 send_contact_email(form)
-            except Exception as e:
+            except BadHeaderError:
+                messages.error(request, "Invalid email header. Please try again.")
+            except Exception as error:
+                logger.exception("Contact form email failed")
+                error_message = (
+                    f"Email send failed: {error}"
+                    if settings.DEBUG
+                    else "Message could not be sent. Please check the email setup and try again."
+                )
                 messages.error(
                     request,
-                    "Message could not be sent. Please check the email setup and try again.",
+                    error_message,
                 )
             else:
                 messages.success(

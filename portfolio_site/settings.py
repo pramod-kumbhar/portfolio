@@ -68,7 +68,7 @@ DATABASES = {
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
-USE_TZ = True
+USE_TZ = True 
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
